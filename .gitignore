@@ -1,0 +1,10 @@
+# This repository contains source only.
+node_modules/
+.wrangler/
+.dev.vars
+.env*
+data.js
+**/data/
+**/reports/
+**/private/
+*.log
