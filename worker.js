@@ -13,7 +13,7 @@ async function graph(edge,params,token){const u=new URL('https://graph.facebook.
 const login='<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>메타 광고 KPI 로그인</title><body><main style="max-width:360px;margin:15vh auto;font-family:sans-serif;padding:24px"><h1>메타 광고 KPI</h1><form action="/login" method="post"><label>공용 비밀번호<br><input name="password" type="password" required autocomplete="current-password" style="margin:16px 0;padding:12px;max-width:100%"></label><br><button style="padding:12px">로그인</button></form></main></body></html>';
 export default {async fetch(request,env){
  try{
-  if(!env.DASHBOARD_PASSWORD||env.DASHBOARD_PASSWORD.length<12||!env.SESSION_SECRET||env.SESSION_SECRET.length<32||!env.LOGIN_LIMITER)return reply({error:'호스팅 비밀값과 로그인 시도 제한 설정이 필요합니다.'},503);
+  if(!env.DASHBOARD_PASSWORD)return reply({error:'DASHBOARD_PASSWORD 이름의 비밀값이 현재 배포에 없습니다. 이름과 저장·배포 적용을 확인하세요.'},503); if(env.DASHBOARD_PASSWORD.length<12)return reply({error:'사이트 비밀번호가 12자보다 짧습니다. DASHBOARD_PASSWORD 값을 12자 이상으로 바꾸세요.'},503); if(!env.SESSION_SECRET)return reply({error:'SESSION_SECRET 이름의 비밀값이 현재 배포에 없습니다. 이름과 저장·배포 적용을 확인하세요.'},503); if(env.SESSION_SECRET.length<32)return reply({error:'접속 보호용 비밀키가 32자보다 짧습니다. SESSION_SECRET 값을 32자 이상으로 바꾸세요.'},503); if(!env.LOGIN_LIMITER)return reply({error:'LOGIN_LIMITER 바인딩이 현재 배포에 없습니다.'},503);
   const url=new URL(request.url),p=url.pathname;
   if(url.protocol!=='https:')return reply({error:'HTTPS required'},403);
   if(request.method==='POST'&&request.headers.get('Origin')!==url.origin)return reply({error:'허용되지 않은 요청'},403);
@@ -52,5 +52,7 @@ export default {async fetch(request,env){
   const r=await env.ASSETS.fetch(request);const h=new Headers(r.headers);for(const [a,b]of Object.entries(secureHeaders))h.set(a,b);return new Response(r.body,{status:r.status,headers:h});
  }catch{return reply({error:'요청을 완료하지 못했습니다. 토큰의 광고계정 조회 권한·만료 또는 네트워크 상태를 확인하세요.'},502);}
 }};
+
+
 
 
