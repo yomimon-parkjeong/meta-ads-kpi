@@ -7,7 +7,7 @@ Cloudflare Workers에서 GitHub 저장소 `yomimon-parkjeong/meta-ads-kpi`를 �
 
 Cloudflare Worker의 런타임 Secrets에 아래 두 값을 직접 입력하세요. GitHub 파일, 채팅, 일반 환경변수 또는 빌드 로그에 비밀번호를 기록하지 마세요.
 
-- `DASHBOARD_PASSWORD`: 공용 비밀번호, 최소 12자
+- `DASHBOARD_PASSWORD`: 공용 비밀번호, 최소 8자
 - `SESSION_SECRET`: 세션 암호화용 무작위 값, 최소 32자
 
 비밀값 또는 로그인 제한 바인딩이 없으면 화면은 503으로 차단됩니다. 로그인 후 광고 계정 번호와 Meta 토큰을 입력합니다. 토큰은 Worker가 검증하고 암호화한 HttpOnly 쿠키에 세션과 함께 보관합니다. 영구 DB 저장은 하지 않으며, 원문 토큰은 JavaScript에서 읽을 수 없습니다. 세션은 8시간, 비밀번호 또는 암호화 키 교체 시 기존 세션은 무효가 됩니다. 로그아웃은 현재 브라우저 쿠키를 삭제하며 이미 탈취된 세션을 개별 철회하는 기능은 없습니다.
